@@ -121,13 +121,6 @@ function mcdir() { if [ ! -d "$1" ]; then mkdir -p "$1" ; fi ; cd "$1" ;}
 function bgrep() { grep "$1" ~/.bashrc ;}
 function work_ssh() { if [ ! -d ~/.ssh ]; then  mkdir ~/.ssh ; fi ; chmod 700 ~/.ssh; cd ~/.ssh ; svn co svn+ssh://wfrancis@minsk.dreamhost.com/home/wfrancis/repo/ssh/branches/work ~/.ssh ;} 
 
-# add disk config to clusto
-# clusto attr add -k fai -s class -v 4SSDRAID0 s0064
-# clusto pool remove unallocated <name>
-# clusto pool insert <pool> <hosts..>
-#
-# git config branch.master.remote origin
-# git config branch.master.merge refs/heads/master
 # screen c-a M monitor c-a _ monitor for silence
 
 # Set screen window title
