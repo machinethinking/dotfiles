@@ -1,0 +1,10 @@
+shell -${SHELL}
+#caption always "%3n %t%? @%u%?%? [%h]%?%=%c"
+defscrollback 2048
+startup_message off
+hardstatus on
+hardstatus alwayslastline
+hardstatus string "%{.bW}%-w%{.rW}%n %t%{-}%+w %=%{..G} %H %{..Y} %m/%d %C%a "
+bind ' ' windowlist -b 
+bind b eval "writebuf" "exec sh -c 'pbcopy < /tmp/screen-exchange'"
+#multiuser on

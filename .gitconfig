@@ -1,0 +1,12 @@
+[user]
+	name = William Francis
+	email = wfrancis@digg.com
+[merge]
+	tool = vimdiff
+[core]
+	editor = vim
+[alias]
+	co = checkout
+	br = branch
+	ci = commit
+	st = status
