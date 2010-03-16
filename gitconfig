@@ -1,0 +1,11 @@
+[user]
+	name = William Francis
+[merge]
+	tool = vimdiff
+[core]
+	editor = vim
+[alias]
+	co = checkout
+	br = branch
+	ci = commit
+	st = status
