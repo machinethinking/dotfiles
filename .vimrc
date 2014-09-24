@@ -1,15 +1,3 @@
-" puppet syntax file
-" Filename:     puppet.vim
-" Language:     puppet configuration file 
-" Maintainer:   Luke Kanies <luke@madstop.com>
-" URL:          
-" Last Change: 
-" Version:      
-"
-
-" Copied from the cfengine, ruby, and perl syntax files
-" For version 5.x: Clear all syntax items
-" For version 6.x: Quit when a syntax file was already loaded
 if version < 600
   syntax clear
 elseif exists("b:current_syntax")
@@ -17,84 +5,130 @@ elseif exists("b:current_syntax")
 endif
 syn on
 
+let g:LustyJugglerSuppressRubyWarning = 1
+let g:pymode_lint_ignore = "C0321,W0702,C0301,I0011"
+" Necesary for lots of cool vim things
+set nocompatible
+
+set number
 set ruler
 set et
 " set smarttab
 set softtabstop=4
+set shiftwidth=4 
+set expandtab 
 " filetype indent on
 map <f2> :w\|!python %<cr>
 " split window stuff
 map <C-J> <C-W>j<C-W>_
 map <C-K> <C-W>k<C-W>_
 
-syn region  puppetDefine        start="^\s*\(class\|define\|site\|node\)" end="{" contains=puppetDefType,puppetDefName,puppetDefArguments
-syn keyword puppetDefType       class define site node inherits contained
-syn keyword puppetInherits      inherits contained
-syn region  puppetDefArguments  start="(" end=")" contains=puppetArgument
-syn match   puppetArgument      "\w\+" contained
-syn match   puppetArgument      "\$\w\+" contained
-syn match   puppetArgument      "'[^']+'" contained
-syn match   puppetArgument      '"[^"]+"' contained
-syn match   puppetDefName     "\w\+" contained
+" \c \u to comment/uncomment code block
+vmap \c :s!^!//!<CR>
+vmap \u :s!^//!!<CR>
 
-syn match   puppetInstance           "\w\+\s*{" contains=puppetTypeBrace,puppetTypeName,puppetTypeDefault
-syn match   puppetTypeBrace       "{" contained
-syn match   puppetTypeName       "[a-z]\w*" contained
-syn match   puppetTypeDefault    "[A-Z]\w*" contained
+filetype plugin indent on
 
-syn match   puppetParam           "\w\+\s*=>" contains=puppetTypeRArrow,puppetParamName
-syn match   puppetParamRArrow       "=>" contained
-syn match   puppetParamName       "\w\+" contained
-syn match   puppetVariable           "$\w\+"
-syn match   puppetVariable           "${\w\+}"
-syn match   puppetParen           "("
-syn match   puppetParen           ")"
-syn match   puppetBrace           "{"
-syn match   puppetBrace           "}"
+" makes cursor not jump back when switching modes
+inoremap jj <Esc>`^ 
 
-syn region  puppetString start=+"+ skip=+\\\\\|\\"+ end=+"+ contains=puppetVariable
+" alt mouse click to move cursor
+set mouse=""
 
-syn keyword puppetBoolean    true false 
-syn keyword puppetKeyword    import inherits include
-syn keyword puppetControl    case default 
+" easier moving of code blocks
+vnoremap < <gv
+vnoremap > >gv
 
-" comments last overriding everything else
-syn match   puppetComment            "\s*#.*$" contains=puppetTodo
-syn keyword puppetTodo               TODO NOTE FIXME XXX contained
+set history=700
+set undolevels=700
 
-" Define the default highlighting.
-" For version 5.7 and earlier: only when not done already
-" For version 5.8 and later: only when an item doesn't have highlighting yet
-if version >= 508 || !exists("did_puppet_syn_inits")
-  if version < 508
-    let did_puppet_syn_inits = 1
-    command -nargs=+ HiLink hi link <args>
-  else
-    command -nargs=+ HiLink hi def link <args>
-  endif
+set hidden
 
-  HiLink puppetVariable             Identifier
-  HiLink puppetBoolean              Boolean
-  HiLink puppetType                 Identifier
-  HiLink puppetDefault              Identifier
-  HiLink puppetKeyword              Define
-  HiLink puppetTypeDefs             Define
-  HiLink puppetComment              Comment
-  HiLink puppetString               String
-  HiLink puppetTodo                 Todo
-"  HiLink puppetBrace                Delimiter
-"  HiLink puppetTypeBrace            Delimiter
-"  HiLink puppetParen                Delimiter
-  HiLink puppetDelimiter            Delimiter
-  HiLink puppetControl              Statement
-  HiLink puppetDefType              Define
-  HiLink puppetDefName              Type
-  HiLink puppetTypeName             Statement
-  HiLink puppetTypeDefault          Type
-  HiLink puppetParamName            Identifier
-  HiLink puppetArgument             Identifier
+" automatically reload vimrc
+au BufWritePost .vimrc so ~/.vimrc
 
-  delcommand HiLink
-endif
+" for folds
+"augroup vimrc
+" au BufReadPre * setlocal foldmethod=indent
+"  au BufWinEnter * if &fdm == 'indent' | setlocal foldmethod=manual | endif
+"augroup END
 
-let b:current_syntax = "puppet"
+
+autocmd BufWinLeave *.* mkview
+autocmd BufWinEnter *.* silent loadview
+
+hi Folded ctermfg=216 ctermbg=0
+
+" python vim ide
+" http://www.youtube.com/watch?v=YhqsjUUHj6g&feature=related
+" 
+"set runtimepath+=~/.vim/autoload
+"call pathogen#infect()
+
+set laststatus=2 " Always show the statusline
+set t_Co=256 " Explicitly tell vim that the terminal has 256 colors
+
+set nocompatible               " be iMproved
+filetype off                   " required!
+
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+" let Vundle manage Vundle
+" required! 
+" to install:
+" :BundleInstall
+Bundle 'gmarik/vundle'
+Bundle 'Lokaltog/vim-powerline'
+Bundle 'klen/python-mode'
+Bundle 'mbadran/headlights'
+" ============================================================================
+" " Python IDE Setup
+" "
+" ============================================================================
+"
+" " Settings for vim-powerline
+" " cd ~/.vim/bundle
+" " git clone git://github.com/Lokaltog/vim-powerline.git
+" "" set laststatus=2
+"
+"
+" " Settings for ctrlp
+" " cd ~/.vim/bundle
+" " git clone https://github.com/kien/ctrlp.vim.git
+" ""let g:ctrlp_max_height = 30
+" "" set wildignore+=*.pyc
+" "" set wildignore+=*_build/*
+" "" set wildignore+=*/coverage/*
+"
+"
+" " Settings for python-mode
+" " cd ~/.vim/bundle
+" " git clone https://github.com/klen/python-mode
+" "" map <Leader>g :call RopeGotoDefinition()<CR>
+" "" let ropevim_enable_shortcuts = 1
+" "" let g:pymode_rope_goto_def_newwin = "vnew"
+" "" let g:pymode_rope_extended_complete = 1
+" "" let g:pymode_breakpoint = 0
+" "" let g:pymode_syntax = 1
+" "" let g:pymode_syntax_builtin_objs = 0
+" "" let g:pymode_syntax_builtin_funcs = 0
+" "" map <Leader>b Oimport ipdb; ipdb.set_trace() # BREAKPOINT<C-c>
+"
+" " Better navigating through omnicomplete option list
+" " See
+" http://stackoverflow.com/questions/2170023/how-to-map-keys-for-popup-menu-in-vim
+" "" set completeopt=longest,menuone
+" "" function! OmniPopup(action)
+" ""     if pumvisible()
+" ""         if a:action == 'j'
+" ""             return "\<C-N>"
+" ""         elseif a:action == 'k'
+" ""             return "\<C-P>"
+" ""         endif
+" ""     endif
+" ""     return a:action
+" "" endfunction
+"
+" "" inoremap <silent><C-j> <C-R>=OmniPopup('j')<CR>
+" "" inoremap <silent><C-k> <C-R>=OmniPopup('k')<CR>
