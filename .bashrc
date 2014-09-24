@@ -87,11 +87,9 @@ fi
 alias ll='ls -ltrah'
 alias l='ls -CF'
 alias more='less'
-alias vimrc='echo "svn svn+ssh://wfrancis@fidel.anticlockwise.com/usr/local/svn"'
 alias svnu='svn update'
 alias sc='svn commit'
 alias psg='ps auxwww | grep'
-alias minsk='ssh wfrancis@minsk.dreamhost.com'
 alias keyremove='ssh-keygen -R $1'
 alias showpush='echo \"sudo env SSH_AUTH_SOCK=$SSH_AUTH_SOCK pushProduction -t tags/\"'
 alias dssh=kssh
@@ -100,11 +98,9 @@ alias pdebuilder='pdebuild --debsign-k 01864356 --auto-debsign --buildresult ~/b
 alias sb='source ~/.bashrc'
 alias localip='hostname -i'
 alias fg='find . | grep -i'
-alias bon='bonnie -d /mnt/test -u nobody:nogroup -s 32120:4096 -fb -x 1'
 alias watch='watch -n 5 -d'
 alias u='cd ..'
 alias lasttag='git describe --tags --abbrev=0'
-alias cron='dssh 10.2.128.223'
 alias simplebuild='pdebuild --debbuildopts "-i.git -sa"'
 alias screen='TERM=screen screen '
 alias lasttag='git describe --tags --abbrev=0'
@@ -119,7 +115,6 @@ function rname() { export PROMPT_COMMAND=$1 ;}
 function kssh() { scp ~/.bashrc root@$1:/tmp/.bashrc-wfrancis ; ssh -A -o StrictHostKeyChecking=no -t root@$1 "/bin/bash --rcfile /tmp/.bashrc-wfrancis" ;}
 function mcdir() { if [ ! -d "$1" ]; then mkdir -p "$1" ; fi ; cd "$1" ;}
 function bgrep() { grep "$1" ~/.bashrc ;}
-function work_ssh() { if [ ! -d ~/.ssh ]; then  mkdir ~/.ssh ; fi ; chmod 700 ~/.ssh; cd ~/.ssh ; svn co svn+ssh://wfrancis@minsk.dreamhost.com/home/wfrancis/repo/ssh/branches/work ~/.ssh ;} 
 
 # screen c-a M monitor c-a _ monitor for silence
 
